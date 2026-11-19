@@ -64,6 +64,14 @@ python3 gerar_projeto_creality.py MODELO.3mf CONFIG.3mf peca.stl SAIDA.3mf "Nome
 - Verifique `layer_heights_profile.txt` e configurações por objeto em `model_settings.config`.
 - Projetos com vários objetos: mude só o `project_settings.config` e confirme que os arquivos `3D/*` ficaram idênticos byte a byte.
 
+## Vários objetos e peças com mais de uma parte
+- **Vários objetos:** cada objeto tem o próprio `3D/Objects/object_N.model`. No `3dmodel.model`, cada um vira um `<object id>` com `<component p:path=... objectid=...>` e um `<item>` no `<build>`. Liste cada arquivo em `3D/_rels/3dmodel.model.rels`. No `model_settings.config`, cada objeto precisa de `<object>`, `<model_instance>` e `<assemble_item>` (com o mesmo `transform` do item).
+- **Acrescentar uma parte ao objeto** (aba, reforço): coloque um segundo `<object>` com a malha no mesmo `object_N.model`, um segundo `<component>` no objeto principal e um segundo `<part id=... subtype="normal_part">` no `model_settings.config`. O Creality une as partes que se sobrepõem ao fatiar, sem precisar de booleana na malha.
+  - Faça a parte entrar alguns mm na peça, para não sobrar fresta.
+  - Para um corte, use `subtype="negative_part"`.
+- **Virar uma peça de cabeça para baixo:** rotação de 180° em Y nos vértices (x → −x, z → −z). Isso não inverte as faces.
+- **.3mf do Bambu Studio / MakerWorld:** a malha vem dentro do próprio `3D/3dmodel.model` (sem pasta `Objects`), e as configurações são de outra impressora. Use só as malhas e monte a estrutura a partir de um projeto Creality dele.
+
 ## Alterar configurações SEM abrir o Creality Print
 Use `alterar_config_3mf.py` (nesta pasta) para mudar processo, suporte, brim, filamento ou impressora num .3mf que já existe. O script:
 - não mexe nas malhas nem nas posições;
@@ -121,3 +129,7 @@ Os nomes podem variar um pouco entre versões. Confirme com captura de tela se e
 ## Acesso aos arquivos dele
 - Pasta conectada: `C:\Users\alemg\Downloads`. Use stage e commit pela ponte com o computador.
 - A pasta `AppData\Roaming\Creality` (perfis) não está liberada. Entregue perfis como pacote para importar.
+- **No PC dele (Windows) não há Python instalado** (em 19/11/2026), então os scripts `.py` não rodam lá. Sem Python, use PowerShell com `System.IO.Compression` para ler e gravar o ZIP:
+  - Edite o JSON por regex, chave a chave, preservando o formato. O `ConvertTo-Json` do PowerShell 5.1 reformata o arquivo.
+  - **Armadilha:** variáveis do PowerShell não diferenciam maiúsculas e minúsculas (`$V` e `$v` são a mesma).
+  - Use `[regex]::Replace` com o `CultureInfo` invariante para números, senão a vírgula decimal quebra a malha.

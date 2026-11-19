@@ -31,6 +31,10 @@ description: Perfis, regras e receitas de configuração de impressão para a Cr
 Notas:
 - `enable_filament_dynamic_map = 0`, então `material_flow_temp_graph` não tem efeito.
 - Mudar `slow_down_layer_time` para 8 em peças pequenas é uma mudança de filamento. Avise ou pergunte antes.
+- **PETG MASTERPRINT 220/230 °C confirmado por ele em 19/11/2026** (print da tela do Creality). Projetos antigos (`Tampa_ventoinha_PETG_Masterprint.3mf`, `Gaveta_K1_Max_PETG*.3mf`) ainda têm **240/240 °C e mesa 80/85**. Se usar um deles como fonte de configuração, corrija as temperaturas do bico para 230/220 e avise sobre a mesa.
+- **Limite de fluxo nas receitas:** fluxo = velocidade × largura × camada, que precisa ficar abaixo de `filament_max_volumetric_speed`. Ao **subir a altura de camada**, baixe as velocidades na mesma proporção. Senão a peça inteira roda no teto, que no PETG a 220 °C é arriscado.
+  - Exemplo do que deu errado: camada 0,28 com parede interna 150 e preenchimento 200 (linha 0,45) bateu nos 18 mm³/s. Saíram linhas falhadas, bolinhas e camadas mal grudadas. Ele também tinha trocado o bico sem nivelar, então não deu para isolar a causa.
+  - O hotend da K1 Max aguenta 32 mm³/s, mas o limite do PETG depende da temperatura. Os 18 do perfil 0,4 não foram testados no teste de fluxo máximo.
 
 ## Processos de usuário (bico 0,2)
 - **0.10mm Standard @Creality K1 Max 0.2 nozzle**, valores da wiki da Creality:
@@ -80,6 +84,16 @@ Notas:
   - Aumento mínimo: `xy_contour_compensation` −0,05 e `xy_hole_compensation` +0,05, o que soma +0,1 mm na folga.
 - **Peça perto do calor da câmara:** PLA amolece a 55–60 °C. Sugira PETG, mas respeite a escolha dele.
 - **Alojamento de porca M3:** 5,5 mm entre faces. A compensação de furo ajuda.
+
+### Peças de força (mordentes de morsa, suportes que levam carga)
+- Exemplo: KYB Soft Jaws 50 mm, mordentes para prender bengalas (tubos do garfo) na morsa, em PETG, bico 0,4, 19/11/2026.
+- **Configuração forte:** 8 paredes, topo e base 6, 60% gyroid, camada 0,20. Levou cerca de 6 h para as duas peças.
+- **Versão mais rápida:** 6 paredes e 40% gyroid. Camada 0,28 **só com velocidades reduzidas** (veja o limite de fluxo nas notas dos perfis).
+- **Não mexer no filamento**, mas ele aceitou ventoinha 20–30% só nessa impressão, para as camadas grudarem melhor.
+- **Aba de apoio na morsa:** ele quer que a peça fique apoiada em cima da mandíbula de aço.
+  - Faça uma aba (5 mm × 10 mm para trás) no topo da face traseira. Ela entra como segunda parte do objeto (veja `creality-print-3mf`).
+  - Não faça rebaixo na traseira se houver um canal profundo na frente: no KYB, sobravam só 7,75 mm de parede atrás do canal.
+  - Imprima de cabeça para baixo, com a aba na mesa, sem suporte.
 
 ### Peças de encaixe e furos
 - Furos verticais saem menores no PLA. Use `xy_hole_compensation` de 0,05 a 0,1.
