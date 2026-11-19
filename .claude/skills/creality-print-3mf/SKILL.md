@@ -1,6 +1,6 @@
 ---
 name: creality-print-3mf
-description: Como ler, revisar e gerar projetos .3mf do Creality Print 7 (base OrcaSlicer) sem abrir o programa — troca de malha, posição na mesa, chaves de processo/filamento/impressora e conferência. Use sempre que for criar ou editar um .3mf para a K1 Max.
+description: Como ler, revisar, gerar e alterar projetos .3mf do Creality Print 7 (base OrcaSlicer) — por script, sem abrir o programa, ou passo a passo com o programa aberto (onde fica cada configuração). Use sempre que for criar, editar ou ajustar configurações de um .3mf para a K1 Max.
 ---
 
 # Projetos .3mf do Creality Print 7
@@ -63,6 +63,52 @@ python3 gerar_projeto_creality.py MODELO.3mf CONFIG.3mf peca.stl SAIDA.3mf "Nome
 - Compare `project_settings.config` com a versão anterior e liste as chaves que mudaram.
 - Verifique `layer_heights_profile.txt` e configurações por objeto em `model_settings.config`.
 - Projetos com vários objetos: mude só o `project_settings.config` e confirme que os arquivos `3D/*` ficaram idênticos byte a byte.
+
+## Alterar configurações SEM abrir o Creality Print
+Use `alterar_config_3mf.py` (nesta pasta) para mudar processo, suporte, brim, filamento ou impressora num .3mf que já existe. O script:
+- não mexe nas malhas nem nas posições;
+- registra cada chave no grupo certo;
+- avisa quando uma chave é de filamento;
+- confere o resultado no final.
+
+```bash
+python3 alterar_config_3mf.py ENTRADA.3mf SAIDA.3mf '{"wall_loops":"4","outer_wall_speed":"80"}'
+python3 alterar_config_3mf.py ENTRADA.3mf SAIDA.3mf '{"support_style":"organic"}' --sem-altura-variavel
+```
+
+Mudanças que se fazem com frequência (JSON):
+
+| Objetivo | Chaves |
+|---|---|
+| Suporte que solta fácil | `{"enable_support":"1","support_type":"tree(auto)","support_style":"organic","support_top_z_distance":"0.24","support_bottom_z_distance":"0.24","support_interface_top_layers":"0","support_interface_bottom_layers":"0","support_object_xy_distance":"0.6","support_xy_overrides_z":"z_overrides_xy","support_threshold_angle":"40"}` + `--sem-altura-variavel` |
+| Brim encostado | `{"brim_type":"outer_only","brim_width":"5","brim_object_gap":"0","elefant_foot_compensation":"0"}` |
+| Peça resistente | `{"wall_loops":"4","bottom_shell_layers":"5","sparse_infill_density":"40%","sparse_infill_pattern":"gyroid"}` |
+| Precisão (encaixes, print-in-place) | `{"outer_wall_speed":"80","outer_wall_acceleration":"2500","xy_hole_compensation":"0.05","xy_contour_compensation":"-0.05"}` |
+| Detalhe fino (bico 0,4) | `{"layer_height":"0.12","initial_layer_print_height":"0.16","wall_generator":"arachne","outer_wall_line_width":"0.4"}` |
+| Trocar para o bico 0,2 | Prefira um projeto salvo com a impressora `Creality K1 Max 0.2 nozzle`. Mudar `nozzle_diameter` à mão exige também `max_layer_height` 0.14, larguras de linha 0.22 e o filamento da versão 0,2 |
+
+Depois de editar, ele abre o .3mf no Creality e fatia. O programa respeita os valores gravados no projeto e marca o perfil com `*` (modificado). Isso é normal.
+
+## Alterar configurações COM o Creality Print aberto (versão 7, em inglês, modo Expert)
+Os nomes podem variar um pouco entre versões. Confirme com captura de tela se ele estiver com dúvida.
+- **Modo Expert:** chave no topo do painel de configurações (Simple/Expert). Sem ele, várias opções ficam escondidas.
+- **Painel da direita, aba Prepare:** três blocos, cada um com uma lista e um lápis para editar.
+  - **Printer:** escolhe a impressora/bico. O lápis abre a configuração da impressora; o diâmetro do bico, a retração e os limites de camada ficam em **Extruder**.
+  - **Filament:** o lápis abre temperaturas, flow ratio, pressure advance, ventoinha e fluxo máximo.
+  - **Process:** a lista de perfis (o perfil com `*` foi modificado). Embaixo ficam as abas:
+    - **Quality:** camada, largura de linha, costura (seam), compensações XY e de pé de elefante;
+    - **Strength:** paredes, topo e base, preenchimento;
+    - **Speed:** velocidades e acelerações;
+    - **Support:** ligar, tipo e estilo (Normal, Tree Slim, Organic), ângulo e as distâncias Z e XY;
+    - **Others:** brim (tipo, largura e gap), saia e sequência de impressão.
+- **Salvar um perfil:** ícone de disquete ao lado da lista de Process ou Filament.
+  - **Save** sobrescreve o perfil.
+  - **Save as** cria um novo perfil. Na calibração, salve por cima do perfil do bico certo.
+- **Configuração só para uma peça:** clique com o botão direito no objeto (ou no "+" da lista de objetos) e use Add settings para escolher a categoria. Só aquela peça muda.
+- **Altura de camada variável:** ícone na barra de ferramentas do objeto. Para usar suporte Organic, abra essa ferramenta e clique em **Reset**. Isso resolve o erro "Variable layer height is not supported with Organic supports".
+- **Calibração:** menu **Calibration** no topo (Flow rate, Pressure advance, Max volumetric speed, Retraction, Temperature).
+- **Importar perfis ou pacotes:** File → Import → Import Configuration.
+- **Salvar o projeto:** File → Save Project (Ctrl+S). Gera o .3mf com tudo dentro.
 
 ## Pacotes de perfil (.creality_printer)
 - Também é um ZIP:
