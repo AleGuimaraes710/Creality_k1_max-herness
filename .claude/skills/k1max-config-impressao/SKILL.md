@@ -1,9 +1,9 @@
 ---
 name: k1max-config-impressao
-description: Perfis, regras e receitas de configuração de impressão para a Creality K1 Max do Alexandre (PLA FLEXYGREEN, PETG MASTERPRINT, bicos 0,4 e 0,2). Use ao preparar, revisar ou ajustar qualquer impressão dele.
+description: Perfis, regras e receitas de configuração de impressão para a Creality K1 Max do Alexandre e do Marcelo (PLA FLEXYGREEN, PETG MASTERPRINT, bicos 0,4 e 0,2). Use ao preparar, revisar ou ajustar qualquer impressão deles.
 ---
 
-# Configuração de impressão – K1 Max do Alexandre
+# Configuração de impressão – K1 Max do Alexandre e do Marcelo
 
 ## Equipamento
 - **Impressora:** Creality K1 Max, fechada, mesa 300 × 300 × 300, centro da mesa em (150, 150).
@@ -13,7 +13,8 @@ description: Perfis, regras e receitas de configuração de impressão para a Cr
   - **0,4**: padrão, perfil de sistema `Creality K1 Max 0.4 nozzle`.
   - **0,2**: perfil de usuário `Creality K1 Max 0.2 nozzle`, importado do pacote da Creality. Herda do 0,4.
   - 0,6 e 0,8 existem como perfis de sistema, mas não são usados.
-- **Modelagem:** ele projeta no Fusion 360 e no SolidCraft.
+- **Modelagem:** o Alexandre projeta no Fusion 360 e no SolidCraft; o Marcelo usa o SolidCraft via MCP (skill `modelagem-3d`).
+- **Computadores:** veja "Ambientes por pessoa" no `AGENTS.md` (Windows do Alexandre, Mac do Marcelo).
 
 ## Perfis de filamento (calibrados por ele, não alterar sem pedir)
 
@@ -49,12 +50,12 @@ Notas:
   - suporte Organic; brim só por fora, 3 mm, gap 0, compensação de pé de elefante 0.
 - **Limite de velocidade do bico 0,2:** velocidade ≤ fluxo máximo ÷ (largura × camada). Exemplo: 0,22 × 0,08 a 150 mm/s dá 2,6 mm³/s.
 
-## Regras do Alexandre
+## Regras da casa (definidas pelo Alexandre, valem para os dois)
 1. Não mexer em filamento sem pedir.
 2. O brim encosta na peça só com **gap 0 e compensação de pé de elefante 0**.
-   - Exceção: em peças print-in-place com folga pequena no chão, a compensação evita que a 1ª camada grude. Explique a troca e deixe ele decidir.
+   - Exceção: em peças print-in-place com folga pequena no chão, a compensação evita que a 1ª camada grude. Explique a troca e deixe quem pediu decidir.
 3. Perguntar sobre qualquer melhoria (espessura, folga, material) antes de aplicar.
-4. Entregar o .3mf pronto, salvar em `C:\Users\alemg\Downloads` e mandar o checklist.
+4. Entregar o .3mf pronto, salvar na pasta de entrega de quem pediu (`C:\Users\alemg\Downloads` no PC do Alexandre, `~/Downloads` no Mac do Marcelo) e mandar o checklist.
 5. PLA com a tampa aberta.
 6. Não usar repair automático de malha.
 

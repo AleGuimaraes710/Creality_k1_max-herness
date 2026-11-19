@@ -43,9 +43,9 @@ description: Como ler, revisar, gerar e alterar projetos .3mf do Creality Print 
   - **Filamento (não mexer sem pedir):** `nozzle_temperature*`, `hot_plate_temp*`, `filament_flow_ratio`, `pressure_advance`, `filament_retraction_length`, `filament_max_volumetric_speed`, `fan_*`, `slow_down_layer_time`.
 
 ## Fluxo para gerar um projeto
-1. **Modelo:** um projeto salvo no Creality com 1 objeto na mesa, usado só pela estrutura.
-2. **Configurações:** um projeto do Alexandre com a impressora, o bico e o filamento certos, para herdar a calibração.
-   - Se não existir projeto para aquele bico ou filamento, **peça que ele salve um**. Não invente perfil.
+1. **Modelo:** um projeto salvo no Creality com 1 objeto na mesa, usado só pela estrutura. Procure em `projetos-base/`.
+2. **Configurações:** um projeto de `projetos-base/` com a impressora, o bico e o filamento certos, para herdar a calibração.
+   - Se não existir projeto para aquele bico ou filamento, **peça que salvem um** (instruções em `projetos-base/README.md`). Não invente perfil.
 3. **Gerar:** rode `gerar_projeto_creality.py` (nesta pasta) com o JSON só das chaves de processo.
 4. Se mudar chaves de filamento ou impressora, ajuste à mão e coloque as chaves no índice [1] ou [2] de `different_settings_to_system`.
 5. **Altura de camada variável:** se usar suporte Organic, remova `Metadata/layer_heights_profile.txt` ao copiar o ZIP.
@@ -55,6 +55,7 @@ description: Como ler, revisar, gerar e alterar projetos .3mf do Creality Print 
    - imprima as chaves do checklist (impressora, bico, filamento, temperaturas, flow, PA, brim gap, compensação de pé de elefante, suporte).
 
 ```bash
+# no Mac: .venv/bin/python no lugar de python3 (veja AGENTS.md)
 python3 gerar_projeto_creality.py MODELO.3mf CONFIG.3mf peca.stl SAIDA.3mf "Nome" \
   '{"layer_height":"0.12","wall_loops":"3","brim_object_gap":"0","elefant_foot_compensation":"0"}'
 ```
@@ -70,7 +71,7 @@ python3 gerar_projeto_creality.py MODELO.3mf CONFIG.3mf peca.stl SAIDA.3mf "Nome
   - Faça a parte entrar alguns mm na peça, para não sobrar fresta.
   - Para um corte, use `subtype="negative_part"`.
 - **Virar uma peça de cabeça para baixo:** rotação de 180° em Y nos vértices (x → −x, z → −z). Isso não inverte as faces.
-- **.3mf do Bambu Studio / MakerWorld:** a malha vem dentro do próprio `3D/3dmodel.model` (sem pasta `Objects`), e as configurações são de outra impressora. Use só as malhas e monte a estrutura a partir de um projeto Creality dele.
+- **.3mf do Bambu Studio / MakerWorld:** a malha vem dentro do próprio `3D/3dmodel.model` (sem pasta `Objects`), e as configurações são de outra impressora. Use só as malhas e monte a estrutura a partir de um projeto de `projetos-base/`.
 
 ## Alterar configurações SEM abrir o Creality Print
 Use `alterar_config_3mf.py` (nesta pasta) para mudar processo, suporte, brim, filamento ou impressora num .3mf que já existe. O script:
@@ -95,10 +96,10 @@ Mudanças que se fazem com frequência (JSON):
 | Detalhe fino (bico 0,4) | `{"layer_height":"0.12","initial_layer_print_height":"0.16","wall_generator":"arachne","outer_wall_line_width":"0.4"}` |
 | Trocar para o bico 0,2 | Prefira um projeto salvo com a impressora `Creality K1 Max 0.2 nozzle`. Mudar `nozzle_diameter` à mão exige também `max_layer_height` 0.14, larguras de linha 0.22 e o filamento da versão 0,2 |
 
-Depois de editar, ele abre o .3mf no Creality e fatia. O programa respeita os valores gravados no projeto e marca o perfil com `*` (modificado). Isso é normal.
+Depois de editar, quem pediu abre o .3mf no Creality e fatia. O programa respeita os valores gravados no projeto e marca o perfil com `*` (modificado). Isso é normal.
 
 ## Alterar configurações COM o Creality Print aberto (versão 7, em inglês, modo Expert)
-Os nomes podem variar um pouco entre versões. Confirme com captura de tela se ele estiver com dúvida.
+Os nomes podem variar um pouco entre versões. Confirme com captura de tela se houver dúvida.
 - **Modo Expert:** chave no topo do painel de configurações (Simple/Expert). Sem ele, várias opções ficam escondidas.
 - **Painel da direita, aba Prepare:** três blocos, cada um com uma lista e um lápis para editar.
   - **Printer:** escolhe a impressora/bico. O lápis abre a configuração da impressora; o diâmetro do bico, a retração e os limites de camada ficam em **Extruder**.
@@ -126,10 +127,16 @@ Os nomes podem variar um pouco entre versões. Confirme com captura de tela se e
 - **Atenção:** o pacote da Creality vem com `curr_bed_type = Cool Plate`. Troque para `High Temp Plate`.
 - **Importar:** File → Import → Import Configuration.
 
-## Acesso aos arquivos dele
+## Acesso aos arquivos por computador
+
+### Mac do Marcelo
+- Pasta de entrega: `~/Downloads`. Python: `.venv/bin/python` na raiz do repositório (com `requirements.txt` instalado).
+- Creality Print em `/Applications/Creality Print.app`; os perfis de usuário também não são editados direto: entregue pacote para importar.
+
+### PC do Alexandre (Windows)
 - Pasta conectada: `C:\Users\alemg\Downloads`. Use stage e commit pela ponte com o computador.
 - A pasta `AppData\Roaming\Creality` (perfis) não está liberada. Entregue perfis como pacote para importar.
-- **No PC dele (Windows) não há Python instalado** (em 19/11/2026), então os scripts `.py` não rodam lá. Sem Python, use PowerShell com `System.IO.Compression` para ler e gravar o ZIP:
+- **No PC do Alexandre não há Python instalado** (em 19/11/2026), então os scripts `.py` não rodam lá. Sem Python, use PowerShell com `System.IO.Compression` para ler e gravar o ZIP:
   - Edite o JSON por regex, chave a chave, preservando o formato. O `ConvertTo-Json` do PowerShell 5.1 reformata o arquivo.
   - **Armadilha:** variáveis do PowerShell não diferenciam maiúsculas e minúsculas (`$V` e `$v` são a mesma).
   - Use `[regex]::Replace` com o `CultureInfo` invariante para números, senão a vírgula decimal quebra a malha.
