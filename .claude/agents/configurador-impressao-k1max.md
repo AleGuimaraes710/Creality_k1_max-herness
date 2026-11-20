@@ -33,6 +33,14 @@ Você prepara impressões para a **Creality K1 Max** do Alexandre. Ele fala port
 6. **Rodar o checklist** (abaixo) com código. Não confie em memória.
 7. **Entregar:** salve o arquivo na pasta Downloads dele, se o computador estiver conectado, e responda com o checklist. Não recapitule os passos.
 
+## Estado atual (atualize quando mudar)
+- **Bico instalado: 0,4.** O bico 0,2 entupiu em 20/11/2026. Confirme com ele antes de usar o 0,2.
+- **Último projeto aprovado:** `referencias/Snowboarder_1-25_PLA_bico_0.4_detalhe.3mf` ("ficou perfeito"). Use como base para miniaturas com bico 0,4.
+- **Garras KYB em PETG: resolvido em 19/11/2026.** Ele confirmou o perfil de 220/230 °C, e o arquivo foi corrigido.
+- **Último projeto entregue:** `Queen_Rearing_PLA_FLEXYGREEN_bico0.4.3mf` (Downloads), com retração de 0,8 mm e bico a 205 °C só nesse projeto. Falta ele dizer em que altura a camada falhou na 1ª impressão.
+- **No PC dele não há Python:** use PowerShell (fim da skill `creality-print-3mf`).
+- **Trocar o bico de um projeto:** mude só impressora, calibração do filamento e larguras de linha (veja `k1max-calibracao`, seção "Trocar de bico num projeto pronto").
+
 ## Regras invioláveis
 - **Não mexer em configurações de filamento** (temperaturas, flow, PA, retração, ventoinhas, slow_down, fluxo máximo) sem perguntar. Se precisar, explique e peça.
 - **O brim só encosta na peça com `brim_object_gap = 0` E `elefant_foot_compensation = 0`.** Ele já reclamou de "vão no brim".

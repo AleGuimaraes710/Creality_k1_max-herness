@@ -18,6 +18,11 @@ Este repositório guarda o agente e as skills que preparam impressões 3D para a
 | `.claude/skills/creality-print-3mf/adicionar_bloqueador_3mf.py` | Acrescenta caixas de **bloqueio ou reforço de suporte** a um objeto, em coordenadas da mesa |
 | `.claude/skills/k1max-calibracao/SKILL.md` | Calibração (flow, PA, fluxo volumétrico, retração) e troca de bico 0,4/0,2 |
 | `.claude/perfis/K1_Max_bico_0.2_Alexandre.creality_printer` | Pacote de perfis do bico 0,2 (impressora, processos e filamentos) para importar no Creality |
+| `.claude/referencias/` | Projetos `.3mf` aprovados, usados como base (snowboarder 1:25, bico 0,4 detalhe e bico 0,2 v5) |
+
+## Ao editar estes recursos
+- Parta sempre da versão atual do repositório (`git pull`) e **acrescente**; não substitua arquivos inteiros por cópias antigas. Lições apagadas por engano já tiveram de ser restauradas duas vezes.
+- Quando uma pendência for resolvida, troque o texto dela pelo resultado.
 
 ## Quando usar o quê
 - **Qualquer pedido de impressão** (STL, 3MF, GLB, STEP), revisão de `.3mf`, troca de bico ou calibração → delegue ao agente `configurador-impressao-k1max`.

@@ -80,7 +80,25 @@ Notas:
 - **Bloqueador de suporte** embaixo dos bicos da prancha e das pontas dos esquis. Sem ele, saem suportes baixinhos (0,3 a 2 mm), difíceis de tirar, e os bicos sobem devagar (10 a 20°), então imprimem bem sem apoio.
 - **Antes de entregar:** estime onde vai ter suporte (faces com inclinação abaixo do limite de 40°, agrupadas por região) e diga onde ele fica. No snowboarder, o bloco maior ficou embaixo do quadril agachado, com cerca de 170 mm².
 - **Na hora de tirar o suporte:** espere esfriar totalmente, comece pelos galhos de fora, gire em vez de puxar e use alicate de bico fino ou pinça no bloco maior.
-- **Projeto de referência:** `Snowboarder_1-25_PLA_bico_0.2_v5.3mf` (bico 0,2, Detalhe Miniaturas, PLA 0,2 calibrado, Organic com folga de 0,24, bloqueadores nos bicos).
+- **Projetos de referência:**
+  - ✅ **`Snowboarder_1-25_PLA_bico_0.4_detalhe.3mf`: impresso em 20/11/2026 e aprovado ("ficou perfeito").** É o ponto de partida para os próximos bonecos com bico 0,4. A receita está na tabela abaixo.
+  - `Snowboarder_1-25_PLA_bico_0.2_v5.3mf`: a mesma peça para o bico 0,2 (Detalhe Miniaturas, PLA 0,2 calibrado). Ainda não foi impresso, porque o bico 0,2 entupiu.
+
+#### Receita aprovada: miniatura com bico 0,4 (snowboarder, 20/11/2026)
+| Grupo | Valores |
+|---|---|
+| Impressora | `Creality K1 Max 0.4 nozzle` de fábrica (camada 0,08–0,3, retração 40 mm/s, z-hop Auto Lift), mesa High Temp Plate |
+| Filamento | PLA FLEXYGREEN com a calibração do 0,4: 210/215 °C, mesa 50, flow 0.98, PA 0.052, retração 0.4, fluxo máximo 20, **slow_down 8** |
+| Camada | **0,08**, 1ª camada 0,12 (`print_settings_id` = 0.08mm Standard @Creality K1 Max 0.4 nozzle, modificado) |
+| Linhas | parede externa **0,40**; geral, topo e sólido 0,42; interna e esparsa 0,45; suporte 0,42; 1ª camada 0,5 |
+| Paredes e preenchimento | 4 paredes, topo 8, base 6, Arachne, gyroid 15% |
+| Velocidade | externa 60, interna 100, infill 120, sólido 120, topo 80, 1ª camada 18, suporte 100, interface 60 |
+| Aceleração e jerk | 3000 nas paredes, 2000 na 1ª camada e no topo, aceleração para desaceleração 75%, jerk 3 em tudo (veio do perfil do 0,2 e deu certo no 0,4) |
+| Suporte | tree(auto) Organic, limite de 40°, Z topo e base **0,24**, sem interface, XY 0,6 com z_overrides_xy, ponta 0,8, galho 2, independent off |
+| Bloqueadores | caixas embaixo dos bicos da prancha (até 3,6 mm de altura) |
+| Brim | só por fora, 3 mm, gap 0, compensação de pé de elefante 0 |
+| Costura | atrás (back), reduce_crossing_wall ligado |
+| Malha | 60 mm de boneco (1:25), prancha engrossada pelo método da varredura (1,5–1,8 mm), base plana de 668 mm² |
 
 ### Peças funcionais (dobradiças, suportes, gavetas)
 - 4 paredes, base 5, infill 40% gyroid.
@@ -100,8 +118,7 @@ Notas:
   - parede externa 100 mm/s, interna 150;
   - brim de 5 mm encostado.
 - **Temperatura:** PETG mais quente (cerca de 240 °C) e com menos ventoinha (30 a 50%) cola melhor as camadas, mas foge da calibração dele (220/230 °C, ventoinha 40 a 90%). **Pergunte sempre** antes de usar.
-- **O que foi feito nas garras KYB (19/11/2026):**
-  - O arquivo herdou 240/240 °C de um projeto antigo. Ele confirmou que o perfil certo é 220/230 °C, e o arquivo foi corrigido.
+- **Resolvido em 19/11/2026 (garras KYB):** o arquivo tinha herdado 240/240 °C de um projeto antigo. Ele confirmou que o perfil certo é **220/230 °C**, e o arquivo foi corrigido. Não há pendência.
   - Ventoinha 20–30% só nessa impressão, com autorização dele.
   - **Aba de apoio na morsa:** ele quer que a peça fique apoiada em cima da mandíbula de aço.
     - Faça uma aba (5 mm × 10 mm para trás) no topo da face traseira. Ela entra como segunda parte do objeto (veja `creality-print-3mf`).

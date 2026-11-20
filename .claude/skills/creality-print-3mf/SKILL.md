@@ -59,6 +59,9 @@ python3 gerar_projeto_creality.py MODELO.3mf CONFIG.3mf peca.stl SAIDA.3mf "Nome
   '{"layer_height":"0.12","wall_loops":"3","brim_object_gap":"0","elefant_foot_compensation":"0"}'
 ```
 
+## Cuidado técnico com o zipfile do Python
+`zout.writestr(item, data)` reaproveitando o `ZipInfo` do arquivo de entrada **altera o offset dele**. Ler o ZIP de entrada depois disso dá "Bad magic number for file header". O arquivo de saída fica correto: para conferir, reabra os dois ZIPs do zero.
+
 ## Revisar um projeto salvo por ele
 - Compare `project_settings.config` com a versão anterior e liste as chaves que mudaram.
 - Verifique `layer_heights_profile.txt` e configurações por objeto em `model_settings.config`.
@@ -159,6 +162,9 @@ Os nomes podem variar um pouco entre versões. Confirme com captura de tela se e
   - os processos 0.10mm Standard e 0.08mm Detalhe Miniaturas (folga Z de 0,24, corrigida em 20/11);
   - PLA FLEXYGREEN e PETG MASTERPRINT da versão 0,2.
   - Se mudar algum perfil, gere o pacote de novo e substitua esse arquivo.
+
+## Projetos de referência no repositório
+- `.claude/referencias/`: projetos aprovados, para usar como base de configuração e de estrutura. Hoje há o snowboarder 1:25 em duas versões, bico 0,4 detalhe (aprovado) e bico 0,2 v5.
 
 ## Acesso aos arquivos dele
 - Pasta conectada: `C:\Users\alemg\Downloads`. Use stage e commit pela ponte com o computador.

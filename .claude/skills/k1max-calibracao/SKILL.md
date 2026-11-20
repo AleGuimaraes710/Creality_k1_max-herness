@@ -62,6 +62,25 @@ Atualize esta tabela sempre que ele mandar resultados novos.
 - **PLA FLEXYGREEN / 0,4:** teste de retração. O perfil usa 0,4 mm e deu fios com várias peças na mesa; 0,8 mm é o padrão da Creality.
 - **PETG MASTERPRINT / 0,4:** teste de fluxo volumétrico máximo. Os 18 mm³/s nunca foram testados, e acelerar uma impressão em PETG depende disso.
 
+## Trocar de bico num projeto pronto ("readequar só o bico")
+Quando ele pedir para mudar de bico "mudando o mínimo possível", altere SÓ estes três grupos:
+1. **Impressora:** todas as chaves de impressora do perfil do bico novo (`printer_settings_id`, `nozzle_diameter`, `min_layer_height`/`max_layer_height`, `retraction_speed`, `deretraction_speed`, `retract_before_wipe`, `z_hop_types`, `creality_flush_time`). `different_settings_to_system[2]` fica vazio, e `inherits_group[2]` também, quando for perfil de sistema.
+2. **Filamento:** a calibração daquele bico (`filament_settings_id`, `filament_flow_ratio`, `pressure_advance`, `filament_max_volumetric_speed`). O resto do filamento fica igual.
+3. **Processo, só o que depende do bico:**
+   - todas as larguras de linha;
+   - `tree_support_tip_diameter` (0,6 no bico 0,2, 0,8 no bico 0,4);
+   - `print_settings_id` apontando para um perfil compatível.
+   - Camada, paredes, velocidades, suporte, brim, bloqueadores e malha **não mudam**, desde que a camada esteja dentro do limite do bico novo.
+
+Copie os valores de um projeto do Alexandre que já use aquele bico (por exemplo, um projeto 0,4 com PLA FLEXYGREEN). Confira byte a byte que `3D/*` e `model_settings.config` ficaram idênticos.
+
+## Depois de trocar o bico na impressora
+- O essencial é **medir de novo a altura do bico**. Na K1 Max, o nivelamento automático faz isso com o sensor da mesa.
+  - Marcar a opção de nivelamento ou calibração na janela de envio da impressão resolve.
+  - O autoteste completo pela tela (input shaping, ventoinhas) não é necessário só por causa do bico.
+- Acompanhe a 1ª camada e, se precisar, ajuste o Z-offset pela tela em passos pequenos.
+- **Bico 0,2 entupido (20/11/2026):** puxadas a frio (cold pull) com PLA a cerca de 230 °C e agulha de limpeza de 0,2 mm. Evite filamento com partículas nesse bico.
+
 ## Bico 0,2: dados oficiais da Creality (wiki da K1 Series)
 - **Impressora:**
   - camada mín. 0,04 / máx. 0,14;
