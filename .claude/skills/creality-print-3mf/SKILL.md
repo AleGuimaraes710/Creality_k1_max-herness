@@ -67,14 +67,6 @@ python3 gerar_projeto_creality.py MODELO.3mf CONFIG.3mf peca.stl SAIDA.3mf "Nome
 - Verifique `layer_heights_profile.txt` e configurações por objeto em `model_settings.config`.
 - Projetos com vários objetos: mude só o `project_settings.config` e confirme que os arquivos `3D/*` ficaram idênticos byte a byte.
 
-## Vários objetos e peças com mais de uma parte
-- **Vários objetos:** cada objeto tem o próprio `3D/Objects/object_N.model`. No `3dmodel.model`, cada um vira um `<object id>` com `<component p:path=... objectid=...>` e um `<item>` no `<build>`. Liste cada arquivo em `3D/_rels/3dmodel.model.rels`. No `model_settings.config`, cada objeto precisa de `<object>`, `<model_instance>` e `<assemble_item>` (com o mesmo `transform` do item).
-- **Acrescentar uma parte sólida ao objeto** (aba, reforço): um segundo `<object type="model">` no mesmo `object_N.model`, um segundo `<component>` e um `<part subtype="normal_part">`. O Creality une as partes que se sobrepõem ao fatiar, sem booleana na malha. Faça a parte entrar alguns mm na peça.
-  - Bloqueadores, modificadores e cortes (`negative_part`) seguem o mesmo esquema com `type="other"` (veja "Bloqueador e reforço de suporte").
-- **Configuração só de um objeto:** `<metadata key="<chave>" value="..."/>` dentro do `<object>` no `model_settings.config`. Exemplo: `enable_support` = 1 só nas peças que precisam de suporte, com o projeto em 0.
-- **Virar uma peça:** 180° em Y nos vértices (x → −x, z → −z) ou 180° em X (y → −y, z → −z). Nenhum dos dois inverte as faces.
-- **.3mf do Bambu Studio / MakerWorld:** a malha pode vir dentro do próprio `3D/3dmodel.model` ou em `3D/Objects/`. Pode ter várias mesas, rotações no `transform` do `<item>`, configurações por objeto (camada 0,08 etc.) e configurações de outra impressora. Use só as malhas e monte a estrutura a partir de um projeto Creality dele.
-
 ## Alterar configurações SEM abrir o Creality Print
 Use `alterar_config_3mf.py` (nesta pasta) para mudar processo, suporte, brim, filamento ou impressora num .3mf que já existe. O script:
 - não mexe nas malhas nem nas posições;
@@ -157,20 +149,7 @@ Os nomes podem variar um pouco entre versões. Confirme com captura de tela se e
 - **Filamento de usuário:** herde de `Generic PLA @Creality K1 Max 0.4 nozzle` (ou PETG) e mude só o necessário. A impressora 0,2 herda da 0,4, então fica compatível.
 - **Atenção:** o pacote da Creality vem com `curr_bed_type = Cool Plate`. Troque para `High Temp Plate`.
 - **Importar:** File → Import → Import Configuration.
-- **Pacote atual dele:** `.claude/perfis/K1_Max_bico_0.2_Alexandre.creality_printer`, no repositório. Contém:
-  - a impressora 0,2;
-  - os processos 0.10mm Standard e 0.08mm Detalhe Miniaturas (folga Z de 0,24, corrigida em 20/11);
-  - PLA FLEXYGREEN e PETG MASTERPRINT da versão 0,2.
-  - Se mudar algum perfil, gere o pacote de novo e substitua esse arquivo.
-
-## Projetos de referência no repositório
-- `.claude/referencias/`: projetos aprovados, para usar como base de configuração e de estrutura. Hoje há o snowboarder 1:25 em duas versões, bico 0,4 detalhe (aprovado) e bico 0,2 v5.
 
 ## Acesso aos arquivos dele
 - Pasta conectada: `C:\Users\alemg\Downloads`. Use stage e commit pela ponte com o computador.
 - A pasta `AppData\Roaming\Creality` (perfis) não está liberada. Entregue perfis como pacote para importar.
-- **No PC dele (Windows) não há Python instalado** (conferido em 20/11/2026), então os scripts `.py` desta pasta não rodam lá. Sem Python, use PowerShell com `System.IO.Compression` para ler e gravar o ZIP:
-  - Edite o JSON por regex, chave a chave, preservando o formato. O `ConvertTo-Json` do PowerShell 5.1 reformata o arquivo.
-  - **Armadilha:** variáveis do PowerShell não diferenciam maiúsculas e minúsculas (`$V`/`$v`, `$T`/`$t` são a mesma; `foreach($t in $T)` destrói a lista).
-  - Use `[regex]::Replace` com o `CultureInfo` invariante para números, senão a vírgula decimal quebra a malha. Para negar, escreva `0 - $x`.
-  - Guarde uma cópia do arquivo antes de sobrescrever e compare depois: só as chaves pedidas podem mudar.

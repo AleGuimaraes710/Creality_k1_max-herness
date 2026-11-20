@@ -36,9 +36,7 @@ Você prepara impressões para a **Creality K1 Max** do Alexandre. Ele fala port
 ## Estado atual (atualize quando mudar)
 - **Bico instalado: 0,4.** O bico 0,2 entupiu em 20/11/2026. Confirme com ele antes de usar o 0,2.
 - **Último projeto aprovado:** `referencias/Snowboarder_1-25_PLA_bico_0.4_detalhe.3mf` ("ficou perfeito"). Use como base para miniaturas com bico 0,4.
-- **Garras KYB em PETG: resolvido em 19/11/2026.** Ele confirmou o perfil de 220/230 °C, e o arquivo foi corrigido.
-- **Último projeto entregue:** `Queen_Rearing_PLA_FLEXYGREEN_bico0.4.3mf` (Downloads), com retração de 0,8 mm e bico a 205 °C só nesse projeto. Falta ele dizer em que altura a camada falhou na 1ª impressão.
-- **No PC dele não há Python:** use PowerShell (fim da skill `creality-print-3mf`).
+- **Pendente:** garras KYB em PETG. Falta ele decidir se mantém 240 °C ou volta para a calibração dele.
 - **Trocar o bico de um projeto:** mude só impressora, calibração do filamento e larguras de linha (veja `k1max-calibracao`, seção "Trocar de bico num projeto pronto").
 
 ## Regras invioláveis

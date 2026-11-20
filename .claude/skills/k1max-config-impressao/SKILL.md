@@ -31,11 +31,6 @@ description: Perfis, regras e receitas de configuração de impressão para a Cr
 Notas:
 - `enable_filament_dynamic_map = 0`, então `material_flow_temp_graph` não tem efeito.
 - Mudar `slow_down_layer_time` para 8 em peças pequenas é uma mudança de filamento. Avise ou pergunte antes.
-- **PETG MASTERPRINT 220/230 °C confirmado por ele em 19/11/2026** (print da tela do Creality). Projetos antigos (`Tampa_ventoinha_PETG_Masterprint.3mf`, `Gaveta_K1_Max_PETG*.3mf`) ainda têm **240/240 °C e mesa 80/85**. Se usar um deles como fonte de configuração, corrija as temperaturas do bico para 230/220 e avise sobre a mesa.
-- **PLA FLEXYGREEN 0,4 tem retração de 0,4 mm**, que se sobrepõe aos 0,8 mm da impressora. Com várias peças na mesa (muitas viagens), isso deixou **fios entre as peças** (Queen Rearing, 20/11/2026). Com autorização dele, usou-se 0,8 mm e bico a 205 °C só naquele projeto.
-- **Limite de fluxo nas receitas:** fluxo = velocidade × largura × camada, que precisa ficar abaixo de `filament_max_volumetric_speed`. Ao **subir a altura de camada**, baixe as velocidades na mesma proporção. Senão a peça inteira roda no teto, que no PETG a 220 °C é arriscado.
-  - Exemplo do que deu errado: camada 0,28 com parede interna 150 e preenchimento 200 (linha 0,45) bateu nos 18 mm³/s. Saíram linhas falhadas, bolinhas e camadas mal grudadas. Ele também tinha trocado o bico sem nivelar, então não deu para isolar a causa.
-  - O hotend da K1 Max aguenta 32 mm³/s, mas o limite do PETG depende da temperatura. Os 18 do perfil 0,4 não foram testados no teste de fluxo máximo.
 
 ## Processos de usuário (bico 0,2)
 - **0.10mm Standard @Creality K1 Max 0.2 nozzle**, valores da wiki da Creality:
@@ -118,28 +113,7 @@ Notas:
   - parede externa 100 mm/s, interna 150;
   - brim de 5 mm encostado.
 - **Temperatura:** PETG mais quente (cerca de 240 °C) e com menos ventoinha (30 a 50%) cola melhor as camadas, mas foge da calibração dele (220/230 °C, ventoinha 40 a 90%). **Pergunte sempre** antes de usar.
-- **Resolvido em 19/11/2026 (garras KYB):** o arquivo tinha herdado 240/240 °C de um projeto antigo. Ele confirmou que o perfil certo é **220/230 °C**, e o arquivo foi corrigido. Não há pendência.
-  - Ventoinha 20–30% só nessa impressão, com autorização dele.
-  - **Aba de apoio na morsa:** ele quer que a peça fique apoiada em cima da mandíbula de aço.
-    - Faça uma aba (5 mm × 10 mm para trás) no topo da face traseira. Ela entra como segunda parte do objeto (veja `creality-print-3mf`).
-    - Não faça rebaixo na traseira se houver um canal profundo na frente: no KYB, sobravam só 7,75 mm de parede atrás do canal.
-    - Imprima de cabeça para baixo, com a aba na mesa, sem suporte.
-  - **Versão mais rápida:** 6 paredes e 40% gyroid. Camada 0,28 **só com velocidades reduzidas** (veja o limite de fluxo nas notas dos perfis).
-
-### Peças pequenas de apicultura (Queen Rearing System, PLA, bico 0,4)
-- **Projeto:** `Queen_Rearing_PLA_FLEXYGREEN_bico0.4.3mf` (20/11/2026): 2 gaiolas de nascimento (20 × 20 × 64,5 mm), 5 cúpulas de 3,5 mm (16 × 16 × 23 mm), tampa e blank, numa mesa só. Origem: .3mf do Bambu Studio com 4 mesas.
-- **Base:** camada 0,12, 1ª camada 0,16, 3 paredes Arachne, parede externa com linha de 0,4 mm, a 40 mm/s e aceleração 1500, 15% gyroid.
-- **Cúpulas:** ele quis o contrário da orientação do autor: tubo na mesa (~30 mm²), aba de Ø16 mm no meio, copo aberto para cima. Só a aba precisa de suporte; o interior do copo fica limpo.
-- **Suporte só em alguns objetos:** `enable_support = 0` no projeto e `<metadata key="enable_support" value="1"/>` só nas cúpulas (no `model_settings.config`). As gaiolas são vazadas: suporte dentro delas não sai.
-- **Acabamento embaixo da aba** (escolha dele): Organic com folga Z de 0,24 e XY de 0,6, só a partir da mesa, mais **2 camadas de interface concêntrica com espaçamento 0,2**. Sem interface, solta mais fácil, mas a face fica caída.
-- **Brim de 5 mm** em tudo: as peças são altas e têm pouca área na mesa.
-- **Camada falhada em todas as peças na mesma altura** = faltou filamento por um instante: carretel prendendo, bico mal apertado depois da troca, filamento úmido ou calor (a tampa estava aberta, então o calor foi descartado). Pergunte em que altura foi.
-
-## Custos (premissas dele, 20/11/2026)
-- PLA R$ 120/kg; energia R$ 1,10/kWh (São Paulo, arredondado para cima); K1 Max com ~0,2 kW de média; impressora R$ 4.000 em 5.000 h + R$ 0,20/h de manutenção = R$ 1,22/h de máquina; +10% para falhas.
-- O custo da máquina pesa mais que o do plástico em peças pequenas. Divida o custo da mesa pela massa de cada peça.
-- **Queen Rearing:** kit de 23 g ≈ R$ 7,74 numa mesa; em mesas cheias, ≈ R$ 5. Preço para o tio dele: kit R$ 10 (avulso) / R$ 8 (em quantidade); atacado R$ 15–18; varejo R$ 25–30.
-- Mão de obra não entra no custo; tirar o suporte das cúpulas leva ~1 min cada.
+- Um arquivo assim chegou com o filamento já alterado. A decisão sobre manter ou voltar à calibração dele ficou pendente.
 
 ### Peças de encaixe e furos
 - Furos verticais saem menores no PLA. Use `xy_hole_compensation` de 0,05 a 0,1.

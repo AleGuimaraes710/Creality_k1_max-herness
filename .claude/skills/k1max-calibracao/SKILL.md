@@ -58,10 +58,6 @@ Depois de cada teste: clique no lápis do filamento, coloque o valor novo e **sa
 
 Atualize esta tabela sempre que ele mandar resultados novos.
 
-**Pendências sugeridas:**
-- **PLA FLEXYGREEN / 0,4:** teste de retração. O perfil usa 0,4 mm e deu fios com várias peças na mesa; 0,8 mm é o padrão da Creality.
-- **PETG MASTERPRINT / 0,4:** teste de fluxo volumétrico máximo. Os 18 mm³/s nunca foram testados, e acelerar uma impressão em PETG depende disso.
-
 ## Trocar de bico num projeto pronto ("readequar só o bico")
 Quando ele pedir para mudar de bico "mudando o mínimo possível", altere SÓ estes três grupos:
 1. **Impressora:** todas as chaves de impressora do perfil do bico novo (`printer_settings_id`, `nozzle_diameter`, `min_layer_height`/`max_layer_height`, `retraction_speed`, `deretraction_speed`, `retract_before_wipe`, `z_hop_types`, `creality_flush_time`). `different_settings_to_system[2]` fica vazio, e `inherits_group[2]` também, quando for perfil de sistema.

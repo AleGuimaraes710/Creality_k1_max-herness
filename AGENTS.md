@@ -20,10 +20,6 @@ Este repositório guarda o agente e as skills que preparam impressões 3D para a
 | `.claude/perfis/K1_Max_bico_0.2_Alexandre.creality_printer` | Pacote de perfis do bico 0,2 (impressora, processos e filamentos) para importar no Creality |
 | `.claude/referencias/` | Projetos `.3mf` aprovados, usados como base (snowboarder 1:25, bico 0,4 detalhe e bico 0,2 v5) |
 
-## Ao editar estes recursos
-- Parta sempre da versão atual do repositório (`git pull`) e **acrescente**; não substitua arquivos inteiros por cópias antigas. Lições apagadas por engano já tiveram de ser restauradas duas vezes.
-- Quando uma pendência for resolvida, troque o texto dela pelo resultado.
-
 ## Quando usar o quê
 - **Qualquer pedido de impressão** (STL, 3MF, GLB, STEP), revisão de `.3mf`, troca de bico ou calibração → delegue ao agente `configurador-impressao-k1max`.
 - O agente lê `k1max-config-impressao` **sempre**, `creality-print-3mf` ao gerar/editar projeto e `k1max-calibracao` só para calibração.
