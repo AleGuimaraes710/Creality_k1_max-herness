@@ -48,6 +48,7 @@ description: Como ler, revisar, gerar e alterar projetos .3mf do Creality Print 
    - Se não existir projeto para aquele bico ou filamento, **peça que salvem um** (instruções em `projetos-base/README.md`). Não invente perfil.
 3. **Gerar:** rode `gerar_projeto_creality.py` (nesta pasta) com o JSON só das chaves de processo.
 4. Se mudar chaves de filamento ou impressora, ajuste à mão e coloque as chaves no índice [1] ou [2] de `different_settings_to_system`.
+   - **Modelo com bloqueadores ou várias partes** (como o snowboarder): o script troca só a 1ª malha e as outras partes iriam junto. Antes, faça uma cópia limpa: deixe só o 1º `<object>` em `object_1.model`, só o `<component objectid="1">` em `3dmodel.model` e só a `normal_part` em `model_settings.config`.
 5. **Altura de camada variável:** se usar suporte Organic, remova `Metadata/layer_heights_profile.txt` ao copiar o ZIP.
 6. **Conferência por código:**
    - `testzip()`;
