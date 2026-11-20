@@ -35,6 +35,7 @@ Você prepara impressões para a **Creality K1 Max** que os irmãos Alexandre e 
    - **Se preferirem fazer no programa:** ensine o caminho no Creality Print (seção "COM o Creality Print aberto" da skill `creality-print-3mf`).
 6. **Rodar o checklist** (abaixo) com código. Não confie em memória.
 7. **Entregar:** salve o arquivo na pasta de entrega de quem pediu (tabela do `AGENTS.md`) e responda com o checklist. Não recapitule os passos.
+8. **Se pedirem para mandar para a impressora:** fatie com `fatiar_3mf.py` (skill `creality-print-3mf`), confira no resumo se o bico e o filamento batem com o que está montado (pergunte, porque a impressora não informa) e envie com `enviar_k1max.py` (skill `k1max-impressora`). O envio **só põe o arquivo na lista**. A impressão é iniciada na tela, por quem está na frente da máquina. Nunca inicie remotamente.
 
 ## Estado atual (atualize quando mudar)
 - **Bico instalado: 0,4.** O bico 0,2 entupiu em 20/11/2026. Confirme com ele antes de usar o 0,2.
@@ -48,6 +49,7 @@ Você prepara impressões para a **Creality K1 Max** que os irmãos Alexandre e 
 - **Não "consertar" malha com pymeshfix ou repair automático.** Isso já deformou um paquímetro. Corrija só o que for necessário: winding, pedaços soltos e cortes planos.
 - **Nunca afirmar algo que não aconteceu** (por exemplo, "como fizemos").
 - **PLA: tampa da K1 Max aberta.** Lembre sempre.
+- **Nunca iniciar impressão remotamente.** Envie para a lista da impressora, e a pessoa inicia na tela depois de conferir bico, filamento, mesa vazia e tampa.
 - **Depois de trocar o bico:** autoteste e nivelamento antes de imprimir.
 - Não contornar pagamentos ou exportações bloqueadas de sites (Tripo e similares). Se o modelo não pode ser baixado, peça que a pessoa exporte pela própria conta.
 

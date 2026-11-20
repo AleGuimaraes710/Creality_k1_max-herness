@@ -144,6 +144,16 @@ Os nomes podem variar um pouco entre versões. Confirme com captura de tela se h
 - **Importar perfis ou pacotes:** File → Import → Import Configuration.
 - **Salvar o projeto:** File → Save Project (Ctrl+S). Gera o .3mf com tudo dentro.
 
+## Fatiar sem abrir o programa (linha de comando) – testado em 20/11/2026
+`fatiar_3mf.py` chama o próprio Creality Print (`--slice`) e usa **as configurações gravadas no .3mf**. Ele não usa perfis soltos, então o G-code sai como o programa geraria com o mesmo projeto aberto. A comparação de 585 chaves entre o .3mf e o G-code não mostrou diferenças reais.
+```
+.venv/bin/python .claude/skills/creality-print-3mf/fatiar_3mf.py projeto.3mf [--saida ~/Downloads] [--nome peca]
+```
+- Saída: `<nome>_bico<d>_<filamento>_<tempo>.gcode`, com miniaturas 96 e 300 px embutidas. O CLI não renderiza miniatura, e o script usa a imagem da placa que o fatiador gera. O resumo mostra bico, filamento, temperaturas, camada, suporte, brim, tempo e gramas.
+- **Versão:** o Mac tem o Creality Print **7.2.2**, e os projetos do Alexandre são salvos no **7.3**. O CLI recusa arquivo mais novo. O script para e avisa, e só fatia com `--permitir-versao-nova` (opções novas podem ser ignoradas). O melhor é deixar os dois computadores na mesma versão.
+- Windows: procura `C:\Program Files\Creality\Creality Print*\CrealityPrint.exe` (ainda **não testado** no PC do Alexandre). Se não achar, use `--exe`.
+- Para mandar à impressora (sem imprimir): `enviar_k1max.py` da skill `k1max-impressora`.
+
 ## Pacotes de perfil (.creality_printer)
 - Também é um ZIP:
   - `bundle_structure.json` com `printer_config`, `filament_config`, `process_config` e `printer_preset_name`;
