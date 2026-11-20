@@ -58,6 +58,10 @@ Depois de cada teste: clique no lápis do filamento, coloque o valor novo e **sa
 
 Atualize esta tabela sempre que ele mandar resultados novos.
 
+**Pendências sugeridas:**
+- **PLA FLEXYGREEN / 0,4:** teste de retração. O perfil usa 0,4 mm e deu fios com várias peças na mesa; 0,8 mm é o padrão da Creality.
+- **PETG MASTERPRINT / 0,4:** teste de fluxo volumétrico máximo. Os 18 mm³/s nunca foram testados, e acelerar uma impressão em PETG depende disso.
+
 ## Bico 0,2: dados oficiais da Creality (wiki da K1 Series)
 - **Impressora:**
   - camada mín. 0,04 / máx. 0,14;

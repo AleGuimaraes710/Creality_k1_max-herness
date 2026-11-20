@@ -15,7 +15,9 @@ Este repositório guarda o agente e as skills que preparam impressões 3D para a
 | `.claude/skills/creality-print-3mf/SKILL.md` | Estrutura do `.3mf`, chaves de configuração, como gerar/revisar/alterar projetos por script e onde fica cada opção no Creality Print aberto |
 | `.claude/skills/creality-print-3mf/gerar_projeto_creality.py` | Gera o `.3mf` de um **modelo novo** a partir de um projeto modelo + projeto de configuração |
 | `.claude/skills/creality-print-3mf/alterar_config_3mf.py` | Altera só as configurações de um **`.3mf` existente** (malhas intactas); `--sem-altura-variavel` para suporte Organic |
+| `.claude/skills/creality-print-3mf/adicionar_bloqueador_3mf.py` | Acrescenta caixas de **bloqueio ou reforço de suporte** a um objeto, em coordenadas da mesa |
 | `.claude/skills/k1max-calibracao/SKILL.md` | Calibração (flow, PA, fluxo volumétrico, retração) e troca de bico 0,4/0,2 |
+| `.claude/perfis/K1_Max_bico_0.2_Alexandre.creality_printer` | Pacote de perfis do bico 0,2 (impressora, processos e filamentos) para importar no Creality |
 
 ## Quando usar o quê
 - **Qualquer pedido de impressão** (STL, 3MF, GLB, STEP), revisão de `.3mf`, troca de bico ou calibração → delegue ao agente `configurador-impressao-k1max`.
@@ -31,7 +33,7 @@ Este repositório guarda o agente e as skills que preparam impressões 3D para a
 
 ## Ambiente
 - Windows; pasta de entrega: `C:\Users\alemg\Downloads`.
-- Python com `trimesh`, `numpy` e `manifold3d` para análise de malha (`pip install trimesh numpy manifold3d`).
+- Python com `trimesh`, `numpy` e `manifold3d` para análise de malha (`pip install trimesh numpy manifold3d`). **No PC dele o Python não está instalado:** use PowerShell (veja o fim da skill `creality-print-3mf`).
 - Os perfis do Creality (`AppData\Roaming\Creality`) não são editados diretamente: entregue perfis como pacote `.creality_printer` para importar.
 
 ## Manutenção

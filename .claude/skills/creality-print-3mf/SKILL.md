@@ -66,11 +66,11 @@ python3 gerar_projeto_creality.py MODELO.3mf CONFIG.3mf peca.stl SAIDA.3mf "Nome
 
 ## Vários objetos e peças com mais de uma parte
 - **Vários objetos:** cada objeto tem o próprio `3D/Objects/object_N.model`. No `3dmodel.model`, cada um vira um `<object id>` com `<component p:path=... objectid=...>` e um `<item>` no `<build>`. Liste cada arquivo em `3D/_rels/3dmodel.model.rels`. No `model_settings.config`, cada objeto precisa de `<object>`, `<model_instance>` e `<assemble_item>` (com o mesmo `transform` do item).
-- **Acrescentar uma parte ao objeto** (aba, reforço): coloque um segundo `<object>` com a malha no mesmo `object_N.model`, um segundo `<component>` no objeto principal e um segundo `<part id=... subtype="normal_part">` no `model_settings.config`. O Creality une as partes que se sobrepõem ao fatiar, sem precisar de booleana na malha.
-  - Faça a parte entrar alguns mm na peça, para não sobrar fresta.
-  - Para um corte, use `subtype="negative_part"`.
-- **Virar uma peça de cabeça para baixo:** rotação de 180° em Y nos vértices (x → −x, z → −z). Isso não inverte as faces.
-- **.3mf do Bambu Studio / MakerWorld:** a malha vem dentro do próprio `3D/3dmodel.model` (sem pasta `Objects`), e as configurações são de outra impressora. Use só as malhas e monte a estrutura a partir de um projeto Creality dele.
+- **Acrescentar uma parte sólida ao objeto** (aba, reforço): um segundo `<object type="model">` no mesmo `object_N.model`, um segundo `<component>` e um `<part subtype="normal_part">`. O Creality une as partes que se sobrepõem ao fatiar, sem booleana na malha. Faça a parte entrar alguns mm na peça.
+  - Bloqueadores, modificadores e cortes (`negative_part`) seguem o mesmo esquema com `type="other"` (veja "Bloqueador e reforço de suporte").
+- **Configuração só de um objeto:** `<metadata key="<chave>" value="..."/>` dentro do `<object>` no `model_settings.config`. Exemplo: `enable_support` = 1 só nas peças que precisam de suporte, com o projeto em 0.
+- **Virar uma peça:** 180° em Y nos vértices (x → −x, z → −z) ou 180° em X (y → −y, z → −z). Nenhum dos dois inverte as faces.
+- **.3mf do Bambu Studio / MakerWorld:** a malha pode vir dentro do próprio `3D/3dmodel.model` ou em `3D/Objects/`. Pode ter várias mesas, rotações no `transform` do `<item>`, configurações por objeto (camada 0,08 etc.) e configurações de outra impressora. Use só as malhas e monte a estrutura a partir de um projeto Creality dele.
 
 ## Alterar configurações SEM abrir o Creality Print
 Use `alterar_config_3mf.py` (nesta pasta) para mudar processo, suporte, brim, filamento ou impressora num .3mf que já existe. O script:
@@ -96,6 +96,35 @@ Mudanças que se fazem com frequência (JSON):
 | Trocar para o bico 0,2 | Prefira um projeto salvo com a impressora `Creality K1 Max 0.2 nozzle`. Mudar `nozzle_diameter` à mão exige também `max_layer_height` 0.14, larguras de linha 0.22 e o filamento da versão 0,2 |
 
 Depois de editar, ele abre o .3mf no Creality e fatia. O programa respeita os valores gravados no projeto e marca o perfil com `*` (modificado). Isso é normal.
+
+## Bloqueador e reforço de suporte
+
+### Sem abrir o programa
+Use `adicionar_bloqueador_3mf.py` (nesta pasta). As caixas são informadas em coordenadas da **mesa**, como no fatiador (0 a 300 mm).
+
+```bash
+python3 adicionar_bloqueador_3mf.py ENTRADA.3mf SAIDA.3mf \
+  '[{"nome":"Bloqueador bico frontal","min":[145,173,0],"max":[162,181,3.6]}]' [--tipo support_enforcer]
+```
+
+**Estrutura de um objeto com várias partes** (copiada do projeto real dele, `1_esteira.3mf`):
+- **`3D/Objects/object_N.model`:** vários `<object>`. A peça é `type="model"`; bloqueadores, modificadores e partes negativas são `type="other"`.
+- **`3D/3dmodel.model`:** o objeto da mesa tem um `<component>` para cada parte, cada um com seu `objectid` e `transform`.
+- **`Metadata/model_settings.config`:** dentro de `<object id=…>`, um `<part id="<objectid>" subtype="…">` para cada parte.
+  - Subtipos: `normal_part`, `support_blocker`, `support_enforcer`, `modifier_part`, `negative_part`.
+
+**Depois de gerar:**
+1. Confira com render que as caixas cobrem só a região desejada.
+2. Peça para ele confirmar no Creality que os itens aparecem na lista do objeto e que, na prévia, não há suporte ali.
+
+### Com o programa aberto
+- **Caixa:** botão direito no objeto → **Add support blocker** (ou Add support enforcer) → **Box**. Ajuste a caixa com mover (M) e escalar (S).
+- **Pintura:** selecione o objeto → **Support painting** (atalho L) → pincel **Block** (bloquear) ou **Enforce** (forçar) → pinte as superfícies.
+- **Conferir:** fatie e olhe a prévia.
+
+**Quando usar:**
+- Embaixo de partes que levantam pouco da mesa, como os bicos da prancha e as pontas dos esquis. Ali o suporte fica baixinho (menos de 2 mm) e difícil de tirar, e a superfície imprime bem sem ele.
+- Em lugares em que o suporte iria marcar uma superfície visível.
 
 ## Alterar configurações COM o Creality Print aberto (versão 7, em inglês, modo Expert)
 Os nomes podem variar um pouco entre versões. Confirme com captura de tela se ele estiver com dúvida.
@@ -125,11 +154,17 @@ Os nomes podem variar um pouco entre versões. Confirme com captura de tela se e
 - **Filamento de usuário:** herde de `Generic PLA @Creality K1 Max 0.4 nozzle` (ou PETG) e mude só o necessário. A impressora 0,2 herda da 0,4, então fica compatível.
 - **Atenção:** o pacote da Creality vem com `curr_bed_type = Cool Plate`. Troque para `High Temp Plate`.
 - **Importar:** File → Import → Import Configuration.
+- **Pacote atual dele:** `.claude/perfis/K1_Max_bico_0.2_Alexandre.creality_printer`, no repositório. Contém:
+  - a impressora 0,2;
+  - os processos 0.10mm Standard e 0.08mm Detalhe Miniaturas (folga Z de 0,24, corrigida em 20/11);
+  - PLA FLEXYGREEN e PETG MASTERPRINT da versão 0,2.
+  - Se mudar algum perfil, gere o pacote de novo e substitua esse arquivo.
 
 ## Acesso aos arquivos dele
 - Pasta conectada: `C:\Users\alemg\Downloads`. Use stage e commit pela ponte com o computador.
 - A pasta `AppData\Roaming\Creality` (perfis) não está liberada. Entregue perfis como pacote para importar.
-- **No PC dele (Windows) não há Python instalado** (em 19/11/2026), então os scripts `.py` não rodam lá. Sem Python, use PowerShell com `System.IO.Compression` para ler e gravar o ZIP:
+- **No PC dele (Windows) não há Python instalado** (conferido em 20/11/2026), então os scripts `.py` desta pasta não rodam lá. Sem Python, use PowerShell com `System.IO.Compression` para ler e gravar o ZIP:
   - Edite o JSON por regex, chave a chave, preservando o formato. O `ConvertTo-Json` do PowerShell 5.1 reformata o arquivo.
-  - **Armadilha:** variáveis do PowerShell não diferenciam maiúsculas e minúsculas (`$V` e `$v` são a mesma).
-  - Use `[regex]::Replace` com o `CultureInfo` invariante para números, senão a vírgula decimal quebra a malha.
+  - **Armadilha:** variáveis do PowerShell não diferenciam maiúsculas e minúsculas (`$V`/`$v`, `$T`/`$t` são a mesma; `foreach($t in $T)` destrói a lista).
+  - Use `[regex]::Replace` com o `CultureInfo` invariante para números, senão a vírgula decimal quebra a malha. Para negar, escreva `0 - $x`.
+  - Guarde uma cópia do arquivo antes de sobrescrever e compare depois: só as chaves pedidas podem mudar.

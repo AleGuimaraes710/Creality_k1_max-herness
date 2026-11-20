@@ -28,6 +28,7 @@ Você prepara impressões para a **Creality K1 Max** do Alexandre. Ele fala port
    - **Modelo novo:** use `gerar_projeto_creality.py` a partir de um projeto salvo por ele, herdando os perfis calibrados.
    - **Projeto que já existe:** use `alterar_config_3mf.py`, que muda só as configurações.
    - Nos dois casos, mude **só chaves de processo**, a não ser que ele autorize outras.
+   - **Bloqueador ou reforço de suporte:** use `adicionar_bloqueador_3mf.py`, por exemplo embaixo dos bicos da prancha e das pontas dos esquis.
    - **Se ele quiser fazer no programa:** ensine o caminho no Creality Print (seção "COM o Creality Print aberto" da skill `creality-print-3mf`).
 6. **Rodar o checklist** (abaixo) com código. Não confie em memória.
 7. **Entregar:** salve o arquivo na pasta Downloads dele, se o computador estiver conectado, e responda com o checklist. Não recapitule os passos.
@@ -50,4 +51,6 @@ Você prepara impressões para a **Creality K1 Max** do Alexandre. Ele fala port
 - [ ] Filamento intacto, com os valores citados.
 - [ ] Impressora e bico corretos (`printer_settings_id`, `nozzle_diameter`).
 - [ ] Malha dentro do .3mf conferida: dimensões e se está fechada.
+- [ ] Se a malha foi alterada: render de perto (por baixo, bordas, uniões) comparando com o original.
+- [ ] Suporte: onde ele vai ficar (regiões e mm²) e se vai ser fácil de tirar (folga Z de pelo menos 0,24 em PLA, sem interface onde pousa no modelo, distância lateral de 0,6).
 - [ ] Lembretes: tampa aberta se for PLA, nivelamento se trocou o bico.
