@@ -60,18 +60,13 @@ python3 gerar_projeto_creality.py MODELO.3mf CONFIG.3mf peca.stl SAIDA.3mf "Nome
   '{"layer_height":"0.12","wall_loops":"3","brim_object_gap":"0","elefant_foot_compensation":"0"}'
 ```
 
+## Cuidado técnico com o zipfile do Python
+`zout.writestr(item, data)` reaproveitando o `ZipInfo` do arquivo de entrada **altera o offset dele**. Ler o ZIP de entrada depois disso dá "Bad magic number for file header". O arquivo de saída fica correto: para conferir, reabra os dois ZIPs do zero.
+
 ## Revisar um projeto salvo por ele
 - Compare `project_settings.config` com a versão anterior e liste as chaves que mudaram.
 - Verifique `layer_heights_profile.txt` e configurações por objeto em `model_settings.config`.
 - Projetos com vários objetos: mude só o `project_settings.config` e confirme que os arquivos `3D/*` ficaram idênticos byte a byte.
-
-## Vários objetos e peças com mais de uma parte
-- **Vários objetos:** cada objeto tem o próprio `3D/Objects/object_N.model`. No `3dmodel.model`, cada um vira um `<object id>` com `<component p:path=... objectid=...>` e um `<item>` no `<build>`. Liste cada arquivo em `3D/_rels/3dmodel.model.rels`. No `model_settings.config`, cada objeto precisa de `<object>`, `<model_instance>` e `<assemble_item>` (com o mesmo `transform` do item).
-- **Acrescentar uma parte ao objeto** (aba, reforço): coloque um segundo `<object>` com a malha no mesmo `object_N.model`, um segundo `<component>` no objeto principal e um segundo `<part id=... subtype="normal_part">` no `model_settings.config`. O Creality une as partes que se sobrepõem ao fatiar, sem precisar de booleana na malha.
-  - Faça a parte entrar alguns mm na peça, para não sobrar fresta.
-  - Para um corte, use `subtype="negative_part"`.
-- **Virar uma peça de cabeça para baixo:** rotação de 180° em Y nos vértices (x → −x, z → −z). Isso não inverte as faces.
-- **.3mf do Bambu Studio / MakerWorld:** a malha vem dentro do próprio `3D/3dmodel.model` (sem pasta `Objects`), e as configurações são de outra impressora. Use só as malhas e monte a estrutura a partir de um projeto de `projetos-base/`.
 
 ## Alterar configurações SEM abrir o Creality Print
 Use `alterar_config_3mf.py` (nesta pasta) para mudar processo, suporte, brim, filamento ou impressora num .3mf que já existe. O script:
@@ -97,6 +92,35 @@ Mudanças que se fazem com frequência (JSON):
 | Trocar para o bico 0,2 | Prefira um projeto salvo com a impressora `Creality K1 Max 0.2 nozzle`. Mudar `nozzle_diameter` à mão exige também `max_layer_height` 0.14, larguras de linha 0.22 e o filamento da versão 0,2 |
 
 Depois de editar, quem pediu abre o .3mf no Creality e fatia. O programa respeita os valores gravados no projeto e marca o perfil com `*` (modificado). Isso é normal.
+
+## Bloqueador e reforço de suporte
+
+### Sem abrir o programa
+Use `adicionar_bloqueador_3mf.py` (nesta pasta). As caixas são informadas em coordenadas da **mesa**, como no fatiador (0 a 300 mm).
+
+```bash
+python3 adicionar_bloqueador_3mf.py ENTRADA.3mf SAIDA.3mf \
+  '[{"nome":"Bloqueador bico frontal","min":[145,173,0],"max":[162,181,3.6]}]' [--tipo support_enforcer]
+```
+
+**Estrutura de um objeto com várias partes** (copiada do projeto real dele, `1_esteira.3mf`):
+- **`3D/Objects/object_N.model`:** vários `<object>`. A peça é `type="model"`; bloqueadores, modificadores e partes negativas são `type="other"`.
+- **`3D/3dmodel.model`:** o objeto da mesa tem um `<component>` para cada parte, cada um com seu `objectid` e `transform`.
+- **`Metadata/model_settings.config`:** dentro de `<object id=…>`, um `<part id="<objectid>" subtype="…">` para cada parte.
+  - Subtipos: `normal_part`, `support_blocker`, `support_enforcer`, `modifier_part`, `negative_part`.
+
+**Depois de gerar:**
+1. Confira com render que as caixas cobrem só a região desejada.
+2. Peça para ele confirmar no Creality que os itens aparecem na lista do objeto e que, na prévia, não há suporte ali.
+
+### Com o programa aberto
+- **Caixa:** botão direito no objeto → **Add support blocker** (ou Add support enforcer) → **Box**. Ajuste a caixa com mover (M) e escalar (S).
+- **Pintura:** selecione o objeto → **Support painting** (atalho L) → pincel **Block** (bloquear) ou **Enforce** (forçar) → pinte as superfícies.
+- **Conferir:** fatie e olhe a prévia.
+
+**Quando usar:**
+- Embaixo de partes que levantam pouco da mesa, como os bicos da prancha e as pontas dos esquis. Ali o suporte fica baixinho (menos de 2 mm) e difícil de tirar, e a superfície imprime bem sem ele.
+- Em lugares em que o suporte iria marcar uma superfície visível.
 
 ## Alterar configurações COM o Creality Print aberto (versão 7, em inglês, modo Expert)
 Os nomes podem variar um pouco entre versões. Confirme com captura de tela se houver dúvida.
@@ -136,7 +160,9 @@ Os nomes podem variar um pouco entre versões. Confirme com captura de tela se h
 ### PC do Alexandre (Windows)
 - Pasta conectada: `C:\Users\alemg\Downloads`. Use stage e commit pela ponte com o computador.
 - A pasta `AppData\Roaming\Creality` (perfis) não está liberada. Entregue perfis como pacote para importar.
-- **No PC do Alexandre não há Python instalado** (em 19/11/2026), então os scripts `.py` não rodam lá. Sem Python, use PowerShell com `System.IO.Compression` para ler e gravar o ZIP:
-  - Edite o JSON por regex, chave a chave, preservando o formato. O `ConvertTo-Json` do PowerShell 5.1 reformata o arquivo.
-  - **Armadilha:** variáveis do PowerShell não diferenciam maiúsculas e minúsculas (`$V` e `$v` são a mesma).
-  - Use `[regex]::Replace` com o `CultureInfo` invariante para números, senão a vírgula decimal quebra a malha.
+- **Python no PC dele:** veja "Ambientes por pessoa" no `AGENTS.md` (caminho completo e opção `-P`).
+
+### Nos dois computadores: gravar a malha no .3mf
+- Escreva as coordenadas com precisão de float32 (`{:.9g}`). Com 5 a 7 casas fixas, vértices quase coincidentes se fundem e a malha abre (esquiador, 20/11/2026).
+- Para conferir, releia com `process=False`: o fatiador usa os triângulos por índice.
+- Para reduzir a malha, use `manifold3d` (`simplify`, `set_tolerance(1e-4)`). O `fast_simplification` abriu buracos.

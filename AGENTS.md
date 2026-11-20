@@ -16,7 +16,10 @@ Este repositório guarda o agente e as skills que ajudam o **Alexandre** e o **M
 | `.claude/skills/creality-print-3mf/SKILL.md` | Estrutura do `.3mf`, chaves de configuração, como gerar/revisar/alterar projetos por script e onde fica cada opção no Creality Print aberto |
 | `.claude/skills/creality-print-3mf/gerar_projeto_creality.py` | Gera o `.3mf` de um **modelo novo** a partir de um projeto modelo + projeto de configuração |
 | `.claude/skills/creality-print-3mf/alterar_config_3mf.py` | Altera só as configurações de um **`.3mf` existente** (malhas intactas); `--sem-altura-variavel` para suporte Organic |
+| `.claude/skills/creality-print-3mf/adicionar_bloqueador_3mf.py` | Acrescenta caixas de **bloqueio ou reforço de suporte** a um objeto, em coordenadas da mesa |
 | `.claude/skills/k1max-calibracao/SKILL.md` | Calibração (flow, PA, fluxo volumétrico, retração) e troca de bico 0,4/0,2 |
+| `.claude/perfis/K1_Max_bico_0.2_Alexandre.creality_printer` | Pacote de perfis do bico 0,2 (impressora, processos e filamentos) para importar no Creality |
+| `.claude/referencias/` | Projetos `.3mf` aprovados, usados como base (snowboarder 1:25, bico 0,4 detalhe e bico 0,2 v5) |
 | `projetos-base/` | Projetos `.3mf` de referência (por bico e filamento) usados como `MODELO`/`CONFIG` na geração |
 | `requirements.txt` | Bibliotecas Python dos scripts e da análise de malha |
 
@@ -40,13 +43,20 @@ Antes de salvar ou rodar algo, identifique **em qual computador** a sessão est�
 |---|---|---|
 | Sistema | Windows | macOS |
 | Pasta de entrega | `C:\Users\alemg\Downloads` | `~/Downloads` (`/Users/marcelosander/Downloads`) |
-| Python | **não instalado** (em 19/11/2026): use PowerShell (veja `creality-print-3mf`) | `.venv` do repositório (`.venv/bin/python`) |
+| Python | 3.12 só para o usuário (20/11/2026), em `C:\Users\alemg\AppData\Local\Programs\Python\Python312\python.exe` (detalhes abaixo) | `.venv` do repositório (`.venv/bin/python`) |
 | Creality Print | 7.x, perfis em `AppData\Roaming\Creality` (não editar direto) | instalado em `/Applications/Creality Print.app` |
-| Modelagem | Fusion 360 e SolidCraft (com MCP) | SolidCraft com MCP (em configuração) |
+| Modelagem | Fusion 360 e SolidCraft (com MCP) | SolidCraft 0.30.1 com MCP (escopo local do projeto) |
 
-- Primeira vez num Mac/Linux: `python3 -m venv .venv && .venv/bin/pip install -r requirements.txt`.
+**PC do Alexandre (Windows):**
+- O comando `python` do PATH ainda abre a Microsoft Store: use o caminho completo.
+- Pacotes (instalados com `pip --user`): `trimesh`, `numpy`, `manifold3d`, `fast_simplification`, `scipy`, `matplotlib`, `rtree`, `networkx`, `shapely`.
+- Rode com `-P` (não `-I`, que esconde os pacotes do usuário): `& "<python.exe>" -P script.py`.
+
+**Mac do Marcelo:**
+- Primeira vez: `python3 -m venv .venv && .venv/bin/pip install -r requirements.txt`.
 - Rode os scripts com o Python do `.venv`, por exemplo `.venv/bin/python .claude/skills/creality-print-3mf/gerar_projeto_creality.py ...`.
-- Os perfis do Creality não são editados diretamente: entregue perfis como pacote `.creality_printer` para importar.
+
+Nos dois: os perfis do Creality não são editados diretamente; entregue perfis como pacote `.creality_printer` para importar.
 
 ## Manutenção
 - Skills novas: `.claude/skills/<nome>/SKILL.md` com frontmatter `name` e `description`.

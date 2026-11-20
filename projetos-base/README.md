@@ -17,6 +17,8 @@ Um projeto por combinação serve para os dois papéis. Sem ele, o agente precis
 
 Status: **nenhum salvo ainda** (19/11/2026).
 
+Enquanto isso, para **bico 0,4 + PLA FLEXYGREEN** existe `.claude/referencias/Snowboarder_1-25_PLA_bico_0.4_detalhe.3mf` (aprovado pelo Alexandre em 20/11/2026). Ele serve de MODELO/CONFIG, mas o processo dele é de miniatura (camada 0,08, slow_down 8): passe no JSON as chaves de processo que a peça nova precisa e avise que o filamento vem com slow_down 8.
+
 ## Como salvar cada um (Creality Print 7, modo Expert)
 1. File → New Project.
 2. Escolha **Printer**, **Filament** e **Process** da tabela, sem alterar nada (sem `*` no nome do perfil).

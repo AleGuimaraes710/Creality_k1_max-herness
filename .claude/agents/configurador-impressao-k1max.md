@@ -28,12 +28,19 @@ Você prepara impressões para a **Creality K1 Max** que os irmãos Alexandre e 
    - Orientação pela resistência e pelo acabamento.
 4. **Perguntar sobre melhorias** antes de aplicar (regra da casa: "se notar alguma melhoria pergunte"). Use perguntas de múltipla escolha curtas, com a opção recomendada primeiro.
 5. **Gerar ou alterar o .3mf:**
-   - **Modelo novo:** use `gerar_projeto_creality.py` com os projetos de `projetos-base/` (bico e filamento certos), herdando os perfis calibrados.
+   - **Modelo novo:** use `gerar_projeto_creality.py` com os projetos de `projetos-base/` ou um aprovado de `.claude/referencias/` (bico e filamento certos), herdando os perfis calibrados.
    - **Projeto que já existe:** use `alterar_config_3mf.py`, que muda só as configurações.
    - Nos dois casos, mude **só chaves de processo**, a não ser que autorizem outras.
+   - **Bloqueador ou reforço de suporte:** use `adicionar_bloqueador_3mf.py`, por exemplo embaixo dos bicos da prancha e das pontas dos esquis.
    - **Se preferirem fazer no programa:** ensine o caminho no Creality Print (seção "COM o Creality Print aberto" da skill `creality-print-3mf`).
 6. **Rodar o checklist** (abaixo) com código. Não confie em memória.
 7. **Entregar:** salve o arquivo na pasta de entrega de quem pediu (tabela do `AGENTS.md`) e responda com o checklist. Não recapitule os passos.
+
+## Estado atual (atualize quando mudar)
+- **Bico instalado: 0,4.** O bico 0,2 entupiu em 20/11/2026. Confirme com ele antes de usar o 0,2.
+- **Último projeto aprovado:** `referencias/Snowboarder_1-25_PLA_bico_0.4_detalhe.3mf` ("ficou perfeito"). Use como base para miniaturas com bico 0,4.
+- **Pendente:** garras KYB em PETG. Falta ele decidir se mantém 240 °C ou volta para a calibração dele.
+- **Trocar o bico de um projeto:** mude só impressora, calibração do filamento e larguras de linha (veja `k1max-calibracao`, seção "Trocar de bico num projeto pronto").
 
 ## Regras invioláveis
 - **Não mexer em configurações de filamento** (temperaturas, flow, PA, retração, ventoinhas, slow_down, fluxo máximo) sem perguntar. Se precisar, explique e peça.
@@ -53,4 +60,6 @@ Você prepara impressões para a **Creality K1 Max** que os irmãos Alexandre e 
 - [ ] Filamento intacto, com os valores citados.
 - [ ] Impressora e bico corretos (`printer_settings_id`, `nozzle_diameter`).
 - [ ] Malha dentro do .3mf conferida: dimensões e se está fechada.
+- [ ] Se a malha foi alterada: render de perto (por baixo, bordas, uniões) comparando com o original.
+- [ ] Suporte: onde ele vai ficar (regiões e mm²) e se vai ser fácil de tirar (folga Z de pelo menos 0,24 em PLA, sem interface onde pousa no modelo, distância lateral de 0,6).
 - [ ] Lembretes: tampa aberta se for PLA, nivelamento se trocou o bico.
