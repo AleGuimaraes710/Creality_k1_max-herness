@@ -153,3 +153,8 @@ Os nomes podem variar um pouco entre versões. Confirme com captura de tela se e
 ## Acesso aos arquivos dele
 - Pasta conectada: `C:\Users\alemg\Downloads`. Use stage e commit pela ponte com o computador.
 - A pasta `AppData\Roaming\Creality` (perfis) não está liberada. Entregue perfis como pacote para importar.
+- **Python no PC dele:** veja "Ambiente" no `AGENTS.md` (caminho completo e opção `-P`).
+- **Gravar a malha no .3mf:**
+  - Escreva as coordenadas com precisão de float32 (`{:.9g}`). Com 5 a 7 casas fixas, vértices quase coincidentes se fundem e a malha abre (esquiador, 20/11/2026).
+  - Para conferir, releia com `process=False`: o fatiador usa os triângulos por índice.
+  - Para reduzir a malha, use `manifold3d` (`simplify`, `set_tolerance(1e-4)`). O `fast_simplification` abriu buracos.

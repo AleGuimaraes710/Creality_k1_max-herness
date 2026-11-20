@@ -34,7 +34,9 @@ Este repositório guarda o agente e as skills que preparam impressões 3D para a
 
 ## Ambiente
 - Windows; pasta de entrega: `C:\Users\alemg\Downloads`.
-- Python com `trimesh`, `numpy` e `manifold3d` para análise de malha (`pip install trimesh numpy manifold3d`). **No PC dele o Python não está instalado:** use PowerShell (veja o fim da skill `creality-print-3mf`).
+- **Python 3.12 instalado no PC dele** (20/11/2026, só para o usuário), em `C:\Users\alemg\AppData\Local\Programs\Python\Python312\python.exe`. O comando `python` do PATH ainda abre a Microsoft Store: use o caminho completo.
+  - Pacotes (instalados com `pip --user`): `trimesh`, `numpy`, `manifold3d`, `fast_simplification`, `scipy`, `matplotlib`, `rtree`, `networkx`, `shapely`.
+  - Rode com `-P` (não `-I`, que esconde os pacotes do usuário): `& "<python.exe>" -P script.py`.
 - Os perfis do Creality (`AppData\Roaming\Creality`) não são editados diretamente: entregue perfis como pacote `.creality_printer` para importar.
 
 ## Manutenção
