@@ -23,6 +23,7 @@ Este repositório guarda o agente e as skills que ajudam o **Alexandre** e o **M
 | `.claude/perfis/K1_Max_bico_0.2_Alexandre.creality_printer` | Pacote de perfis do bico 0,2 (impressora, processos e filamentos) para importar no Creality |
 | `.claude/referencias/` | Projetos `.3mf` aprovados, usados como base (snowboarder 1:25, bico 0,4 detalhe e bico 0,2 v5) |
 | `projetos-base/` | Projetos `.3mf` de referência (por bico e filamento) usados como `MODELO`/`CONFIG` na geração |
+| `pecas/` | Uma pasta por peça com `README.md` de registro (config aprovada, resultado, lições); peças nossas via Git LFS, modelos de terceiros em `local/` (ignorada) |
 | `requirements.txt` | Bibliotecas Python dos scripts e da análise de malha |
 
 ## Quando usar o quê
@@ -38,6 +39,7 @@ Este repositório guarda o agente e as skills que ajudam o **Alexandre** e o **M
 - **Nunca iniciar impressão remotamente**: o arquivo vai para a lista, e quem está na máquina inicia pela tela.
 - PLA: lembrar da **tampa aberta**. Trocou o bico: **autoteste e nivelamento**.
 - Todo projeto entregue vai acompanhado do **checklist** do agente, verificado por código.
+- Repositório **público**: não subir modelo de terceiros sem licença que permita redistribuir (veja `pecas/README.md`).
 
 ## Ambientes por pessoa
 Antes de salvar ou rodar algo, identifique **em qual computador** a sessão está (`uname`, caminho do repositório). Não use o caminho de um no computador do outro.
