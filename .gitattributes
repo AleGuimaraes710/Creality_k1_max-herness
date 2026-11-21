@@ -1,0 +1,8 @@
+# Arquivos grandes das peças que nós mesmos projetamos vão pelo Git LFS
+pecas/**/*.3mf filter=lfs diff=lfs merge=lfs -text
+pecas/**/*.stl filter=lfs diff=lfs merge=lfs -text
+pecas/**/*.step filter=lfs diff=lfs merge=lfs -text
+pecas/**/*.stp filter=lfs diff=lfs merge=lfs -text
+pecas/**/*.sc filter=lfs diff=lfs merge=lfs -text
+pecas/**/*.obj filter=lfs diff=lfs merge=lfs -text
+pecas/**/*.glb filter=lfs diff=lfs merge=lfs -text

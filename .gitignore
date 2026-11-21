@@ -3,3 +3,7 @@ __pycache__/
 .DS_Store
 # Copias de seguranca locais (o historico do git ja guarda as versoes)
 .claude/_backup_*/
+
+# Peças: arquivos de terceiros (licença sem redistribuição) e saídas que se geram de novo
+pecas/**/local/
+*.gcode
