@@ -17,6 +17,8 @@ Este repositório guarda o agente e as skills que ajudam o **Alexandre** e o **M
 | `.claude/skills/creality-print-3mf/gerar_projeto_creality.py` | Gera o `.3mf` de um **modelo novo** a partir de um projeto modelo + projeto de configuração |
 | `.claude/skills/creality-print-3mf/alterar_config_3mf.py` | Altera só as configurações de um **`.3mf` existente** (malhas intactas); `--sem-altura-variavel` para suporte Organic |
 | `.claude/skills/creality-print-3mf/adicionar_bloqueador_3mf.py` | Acrescenta caixas de **bloqueio ou reforço de suporte** a um objeto, em coordenadas da mesa |
+| `.claude/skills/creality-print-3mf/fatiar_3mf.py` | **Fatia** um `.3mf` pela linha de comando do Creality Print (G-code com bico e filamento no nome e miniatura) |
+| `.claude/skills/k1max-impressora/SKILL.md` | Conexão com a K1 Max sem root (IP 192.168.0.69): status e histórico (`k1max_status.py`) e **envio para a lista sem imprimir** (`enviar_k1max.py`) |
 | `.claude/skills/k1max-calibracao/SKILL.md` | Calibração (flow, PA, fluxo volumétrico, retração) e troca de bico 0,4/0,2 |
 | `.claude/perfis/K1_Max_bico_0.2_Alexandre.creality_printer` | Pacote de perfis do bico 0,2 (impressora, processos e filamentos) para importar no Creality |
 | `.claude/referencias/` | Projetos `.3mf` aprovados, usados como base (snowboarder 1:25, bico 0,4 detalhe e bico 0,2 v5) |
@@ -33,6 +35,7 @@ Este repositório guarda o agente e as skills que ajudam o **Alexandre** e o **M
 - Brim encostado: `brim_object_gap = 0` **e** `elefant_foot_compensation = 0`.
 - Não usar reparo automático de malha (pymeshfix etc.).
 - Nunca afirmar algo que não aconteceu.
+- **Nunca iniciar impressão remotamente**: o arquivo vai para a lista, e quem está na máquina inicia pela tela.
 - PLA: lembrar da **tampa aberta**. Trocou o bico: **autoteste e nivelamento**.
 - Todo projeto entregue vai acompanhado do **checklist** do agente, verificado por código.
 

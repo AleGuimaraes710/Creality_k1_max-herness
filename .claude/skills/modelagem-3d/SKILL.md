@@ -15,7 +15,9 @@ CAD paramétrico, gratuito e open-source (Tangency Labs), o mesmo que o Alexandr
 - Windows: baixe o app e o pacote de CLI em https://solidcraft.io/download/.
 - Conectar ao Claude Code: `claude mcp add solidcraft -- solidcraft-cli mcp --headless --allow-path <pasta de trabalho>`. Prefira isso ao `solidcraft-cli mcp setup`, que reescreve o `~/.claude.json` inteiro.
 - Mac do Marcelo: SolidCraft 0.30.1 instalado em 19/11/2026 (`/Applications/SolidCraft.app`, `/opt/homebrew/bin/solidcraft-cli`).
-- Para ver a peça ao vivo enquanto modelo: abra o app com "Preferences → Assistant → Let AI agents connect" e use `solidcraft-cli mcp --connect 127.0.0.1:<porta>`.
+- Para ver a peça ao vivo enquanto modelo: abra o app com "Preferences → Assistant → Let AI agents connect" e registre `claude mcp add solidcraft-live -- solidcraft-cli mcp --connect 127.0.0.1:27878 --allow-path <pasta de trabalho>`.
+  - A porta padrão do app é **27878** (confira com `lsof -nP -iTCP -sTCP:LISTEN | grep SolidCraf`). O `mcp setup --live` sugere 7878, que não funcionou no Mac do Marcelo em 20/11/2026. Não foi preciso token.
+  - No modo ao vivo, o projeto aberto no app pode ter trabalho não salvo: **nunca** use `new_design` ou `open` sem perguntar.
 - Skills oficiais (`solidcraft-modeling`, `-editing`, `-checking`, `-mechanisms`, `-reporting`) ficam no GitHub do projeto e podem ser copiadas para `~/.claude/skills/`.
 
 **Ferramentas principais:** `list_commands` e `describe_command` (consulte antes de usar um comando novo, não chute argumentos), `execute`, `batch` (com rollback), `set_parameter`, `inspect_design`, `measure`, `body_topology`, `screenshot`, `export`, `save`.
@@ -32,6 +34,8 @@ Se o MCP não estiver disponível, diga isso e pergunte se pode modelar com `man
 4. **Prévia:** `screenshot` em vistas isométrica, frontal e superior. Mostre e **espere aprovação** antes de exportar.
 5. **Exportar** em mm: o `.sc` (fonte editável), um STEP e um STL. Nome: `<peca>_v<N>`.
 6. **Conferir a malha** com `.venv/bin/python` + trimesh: dimensões iguais às do CAD, `is_watertight`, `is_volume`, um corpo só (ou os corpos esperados).
+   - O STL do SolidCraft vem com os vértices soltos por triângulo: carregue com `trimesh.load(...)` (que junta os vértices) antes de testar se está fechado. Com `process=False` ele parece aberto e com 1 corpo por triângulo.
+   - Confira o volume de cada etapa no `measure` contra a sua conta (lição da peça de teste M3, 20/11/2026: chanfro, furos e porca bateram até 0,1 mm³).
 7. **Passar para o configurador** com: material, bico, orientação pensada no projeto e quais medidas são críticas.
 
 ## Regras de projeto (bico 0,4; no 0,2, divida larguras por 2)
